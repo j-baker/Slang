@@ -1,0 +1,9 @@
+*
+!*/
+!*.sml
+!*.c
+!*.h
+!Makefile
+!*.sig
+!*.txt
+!.gitignore
