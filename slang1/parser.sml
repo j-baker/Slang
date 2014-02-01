@@ -259,6 +259,18 @@ and parse_srest lex_buf =
                 in 
                    (lex_buf3, Srest(GTEQ, t, sr))
                 end 
+    | Tand => let val (lex_buf1, _) = consume_next_token lex_buf
+                   val (lex_buf2, t) = parse_term lex_buf1
+                   val (lex_buf3, sr) = parse_srest lex_buf2
+                in 
+                   (lex_buf3, Srest(And, t, sr))
+                end
+    | Tor => let val (lex_buf1, _) = consume_next_token lex_buf
+                   val (lex_buf2, t) = parse_term lex_buf1
+                   val (lex_buf3, sr) = parse_srest lex_buf2
+                in 
+                   (lex_buf3, Srest(Or, t, sr))
+                end  
     | _ => (lex_buf, Srest_null) 
 
 and parse_trest lex_buf = 

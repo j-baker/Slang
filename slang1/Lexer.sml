@@ -37,10 +37,12 @@ datatype token =
    | Tsemi              (* ;           *) 
    | Tplus              (* +           *) 
    | Tstar              (* *           *) 
-   | Tminus             (* -           *) 
+   | Tminus             (* -           *)
    | Tnot               (* ~           *) 
    | Tgets              (* :=          *) 
    | Tgteq              (* >=          *) 
+   | Tand               (* &&          *)
+   | Tor                (* ||          *)
    | Tset               (* set         *) 
    | Tskip              (* skip        *) 
    | Tbegin             (* begin       *) 
@@ -95,6 +97,12 @@ fun get_longest_match lex_buf =
        | #">" => (case current_char (advance_pos 1 lex_buf) of 
                   #"=" => (advance_pos 2 lex_buf, Tgteq) 
                 | _ => lex_error "expecting '=' after '>'")
+       | #"&" => (case current_char (advance_pos 1 lex_buf) of 
+                  #"&" => (advance_pos 2 lex_buf, Tand) 
+                | _ => lex_error "expecting '&' after '&'")
+       | #"|" => (case current_char (advance_pos 1 lex_buf) of 
+                  #"|" => (advance_pos 2 lex_buf, Tor) 
+                | _ => lex_error "expecting '|' after '|'")
        | c => if Char.isDigit c 
               then get_integer (advance_pos 1 lex_buf, [c]) 
               else if Char.isAlpha c 

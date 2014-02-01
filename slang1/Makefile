@@ -6,7 +6,7 @@
 # Unix Makefile for Slang.1 implementation
 
 # adjust this for your system
-MOSMLHOME=/Users/timothygriffin/installs/mosml
+MOSMLHOME=/usr/local/
 MOSMLTOOLS=$(MOSMLHOME)/bin/camlrunm $(MOSMLHOME)/tools
 MOSMLC=$(MOSMLHOME)/bin/mosmlc 
 

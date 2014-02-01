@@ -15,6 +15,8 @@ datatype token =
    | Tnot               (* ~           *) 
    | Tgets              (* :=          *) 
    | Tgteq              (* >=          *) 
+   | Tand               (* &&          *)
+   | Tor                (* ||          *)
    | Tset               (* set         *) 
    | Tskip              (* skip        *) 
    | Tbegin             (* begin       *) 
