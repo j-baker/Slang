@@ -21,6 +21,7 @@ datatype caml_operation =
       | LEINT (* Sets acc to nz or z if acc <= *)
       | GTINT (* Set acc to nz or z if acc > *)
       | GEINT (* >= *)
+      | STOP (* Stops execution *)
 
 type caml_program = caml_operation list
 
@@ -44,6 +45,7 @@ fun caml_operation_to_opcode (ACC _) = 8
   | caml_operation_to_opcode LEINT = 124
   | caml_operation_to_opcode GTINT = 125
   | caml_operation_to_opcode GEINT = 126
+  | caml_operation_to_opcode STOP = 143
 
 fun caml_operation_to_string (ACC n) = "acc " ^ (Int.toString n)
   | caml_operation_to_string PUSH = "push"
@@ -65,6 +67,7 @@ fun caml_operation_to_string (ACC n) = "acc " ^ (Int.toString n)
   | caml_operation_to_string LEINT = "leint"
   | caml_operation_to_string GTINT = "gtint"
   | caml_operation_to_string GEINT = "geint"
+  | caml_operation_to_string STOP = "stop"
 
 fun caml_program_to_string [] = "\n"
   | caml_program_to_string (oper :: rest) = (caml_operation_to_string oper) ^ "\n"

@@ -1,17 +1,32 @@
 open AST_camlvm_assembler;
 
-fun ir2_to_caml (IR2_Comment s) =
+val caml_true_value = 1
+val caml_false_value = 0
+
+(* Make the assumption that the accumulator can be destroyed at the
+   end of each operation *)
+fun ir2_to_caml (IR2_Comment s) = [] (* We do not care about comments *)
   | ir2_to_caml (IR2_Label l) =
-  | ir2_to_caml IR2_Skip =
-  | ir2_to_caml IR2_Halt = 
+  | ir2_to_caml IR2_Skip = [] (* Why do we push unit value in IR2? *)
+  | ir2_to_caml IR2_Halt = [STOP]
   | ir2_to_caml (IR2_Var vk) =
   | ir2_to_caml (IR2_KnownFun v) =
-  | ir2_to_caml (IR2_Integer n) = 
-  | ir2_to_caml (IR2_Boolean true) = 
-  | ir2_to_caml (IR2_Boolean false) =
-  | ir2_to_caml (IR2_UnaryOp (AST_L3.Neg, e)) =
-  | ir2_to_caml (IR2_UnaryOp (AST_L3.Not, e)) = 
+  | ir2_to_caml (IR2_Integer n) = [CONSTINT n, PUSH]
+  | ir2_to_caml (IR2_Boolean true) = [CONSTINT caml_true_value, PUSH]
+  | ir2_to_caml (IR2_Boolean false) = [CONSTINT caml_false_value, PUSH]
+  | ir2_to_caml (IR2_UnaryOp (AST_L3.Neg, e)) = [NEGINT]
+  | ir2_to_caml (IR2_UnaryOp (AST_L3.Not, e)) = [BOOLNOT]
   | ir2_to_caml (IR2_Op (e1, oper, e2)) =
+    let val b1 = ir2_list_to_caml e1
+        val b2 = ir2_list_to_caml e2
+    in
+	case oper of
+	    AST_L3.Plus => b1 @ b2 @ [ACC 0, POP 1, ADDINT, PUSH]
+	    AST_L3.Mult => b1 @ b2 @ [ACC 0, POP 1, MULINT, PUSH]
+            AST_L3.Subt => b2 @ b1 @ [ACC 0, POP 1, SUBINT, PUSH]
+            AST_L3.GTEQ => b1 @ b2 @ [ACC 0, POP 1, GEINT, PUSH]
+            AST_L3.EQ => b1 @ b2 @ [ACC 0, POP 1, EQ, PUSH]
+    end
   | ir2_to_caml (IR2_StoreLocal (e, n)) = 
   | ir2_to_caml (IR2_Assign (e1, e2)) =
   | ir2_to_caml (IR2_Deref e) = 
