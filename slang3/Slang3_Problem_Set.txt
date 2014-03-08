@@ -1,0 +1,21 @@
+
+Slang3 problem set. 
+
+0) Download slang3/vsm2, compiler, and run examples. 
+   Write Slang3 code and test the compiler. 
+   Report bugs and enjoy Kit-Kat bars. 
+1) Add strings as a basic datatype. 
+2) Add records. 
+3) Add disjoint union (inl _, inr _, etc) to Slang3. 
+4) Write a simple garbage collector (in C) for VSM.2. 
+5) Add objects. 
+6) Add tuples. But be careful. This requires a change 
+   to the way functions are currently implemented. 
+7) Extend equality. Currently equality works only 
+   for integer types. Can you extend this to all
+   types?  What does function equality mean? 
+8) Add exceptions. 
+9) From IR2, generate code for a register-oriented 
+   machine of your choice. 
+
+
