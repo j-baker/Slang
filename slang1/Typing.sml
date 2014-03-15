@@ -54,8 +54,8 @@ fun css (Boolean b) = (TEbool, Boolean b)
         if t1 = TEint 
         then if t2 = TEint 
              then (TEbool, Op (e1',GTEQ,e2'))
-             else type_error ("second expression of >= has type " ^ (type_expr_to_string t1))
-        else type_error ("first expression of >= has type " ^ (type_expr_to_string t2))
+             else type_error ("second expression of >= has type " ^ (type_expr_to_string t2))
+        else type_error ("first expression of >= has type " ^ (type_expr_to_string t1))
      end 
   | css (Op (e1,And,e2)) = 
      let val (t1, e1') = css e1 
