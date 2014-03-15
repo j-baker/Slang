@@ -27,8 +27,9 @@ fun expr_to_vrm_code_list IR1_ESkip            =
   | expr_to_vrm_code_list (IR1_UnaryOp (AST_L1.Not, e)) = 
     let val (cl, l) = expr_to_vrm_code_list e 
         and l' = new_temp_loc ()  
+	and end_label = new_label ()
     in 
-        (cl @ [VRM_Mul(l', one_loc, l)], l') 
+        (cl @ [VRM_Set(l', 1), VRM_Ifz(l, end_label), VRM_Set(l', 0), VRM_Label end_label], l')
     end 
   | expr_to_vrm_code_list (IR1_Op (e1, AST_L1.Plus, e2)) = 
     let val (cl1, l1) = expr_to_vrm_code_list e1 
