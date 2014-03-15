@@ -51,6 +51,15 @@ fun expr_to_vsm_code_list env IR1_ESkip            =
               VSM_Label l_end
              ])
       end 
+  | expr_to_vsm_code_list env (IR1_Op (e1, AST_L1.And, e2)) =
+       let val (env1, cl1) = expr_to_vsm_code_list env e1
+           val (env2, cl2) = expr_to_vsm_code_list env1 e2
+           and l_end = Global.new_label()
+       in
+          (env2, cl1 @ [VSM_Ifz l_end] @ cl2 @ [VSM_Label l_end])
+       end
+  | expr_to_vsm_code_list env (IR1_Op (e1, AST_L1.Or, e2)) =
+       expr_to_vsm_code_list env (IR1_UnaryOp (AST_L1.Not, IR1_Op(IR1_UnaryOp(AST_L1.Not, e1), AST_L1.And, IR1_UnaryOp(AST_L1.Not, e2))))
   | expr_to_vsm_code_list env (IR1_Op (e1, AST_L1.Plus, e2)) = 
        let val (env1, cl1) = expr_to_vsm_code_list env e1
            val (env2, cl2) = expr_to_vsm_code_list env1 e2
