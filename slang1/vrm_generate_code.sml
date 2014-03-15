@@ -52,6 +52,16 @@ fun expr_to_vrm_code_list IR1_ESkip            =
     in 
         (cl1 @ cl2 @ [VRM_Sub(l3, l1, l2)], l3) 
     end 
+  | expr_to_vrm_code_list (IR1_Op (e1, AST_L1.And, e2)) =
+    let val (cl1, l1) = expr_to_vrm_code_list e1
+        and (cl2, l2) = expr_to_vrm_code_list e2
+        and result_loc = new_temp_loc ()
+        and end_label = new_label ()
+    in
+       ((VRM_Set(result_loc, 0))::cl1 @ (VRM_Ifz(l1, end_label))::cl2 @ [VRM_Ifz(l2, end_label), VRM_Set(result_loc, 1), VRM_Label end_label], result_loc)
+    end
+  | expr_to_vrm_code_list (IR1_Op (e1, AST_L1.Or, e2)) =
+       expr_to_vrm_code_list (IR1_UnaryOp (AST_L1.Not, IR1_Op(IR1_UnaryOp(AST_L1.Not, e1), AST_L1.And, IR1_UnaryOp(AST_L1.Not, e2))))
   | expr_to_vrm_code_list (IR1_Op (e1, AST_L1.GTEQ, e2)) = 
     let val (cl1, l1) = expr_to_vrm_code_list e1 
         and (cl2, l2) = expr_to_vrm_code_list e2 
