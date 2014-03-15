@@ -160,14 +160,14 @@ void vsm_execute_instruction(vsm_state *state, bytecode instruction)
 
         case OP_ADD:
         {
-          state->sp = state->sp--; 
+          state->sp--; 
 	  state->stack[state->sp - 1] = state->stack[state->sp] + state->stack[state->sp - 1];
 	  state->pc++; 
 	  break;
         }
         case OP_SUB:
         {
-          state->sp = state->sp--; 
+          state->sp--; 
 	  state->stack[state->sp - 1] = state->stack[state->sp - 1] - state->stack[state->sp];
 
 	  state->pc++; 
@@ -175,7 +175,7 @@ void vsm_execute_instruction(vsm_state *state, bytecode instruction)
         }
         case OP_MUL:
         {
-          state->sp = state->sp--; 
+          state->sp--; 
 	  state->stack[state->sp - 1] = state->stack[state->sp] * state->stack[state->sp - 1];
 	  state->pc++; 
 	  break;
