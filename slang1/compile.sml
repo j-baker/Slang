@@ -2,6 +2,7 @@ open Global;
 open Lexer;
 open parser;
 open Typing; 
+open L1_optimisations;
 open L1_to_IR1; 
 open IR1_to_IR2; 
 open vrm_generate_code; 
@@ -24,9 +25,10 @@ fun compile fin fout =
     back_end fout 
       (translate_ir1_to_ir2
         (translate_l1_to_ir1 
-          (check_types 
-            (parse (init_lex_buffer fin)))))
-
+         (optimise(
+           (check_types 
+            (parse (init_lex_buffer fin)))))))
+	
 
 
 

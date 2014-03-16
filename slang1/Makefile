@@ -10,7 +10,7 @@ MOSMLHOME=/usr/local/
 MOSMLTOOLS=$(MOSMLHOME)/bin/camlrunm $(MOSMLHOME)/tools
 MOSMLC=$(MOSMLHOME)/bin/mosmlc 
 
-FILES=Library.uo Global.uo AST_L1.uo AST_IR1.uo AST_IR2.uo L1_to_IR1.uo IR1_to_IR2.uo AST_vrm_assembler.uo AST_vrm_bytecode.uo AST_vsm_assembler.uo AST_vsm_bytecode.uo Lexer.uo parser.uo Typing.uo vrm_generate_code.uo vrm_assemble.uo vrm_emit.uo vsm_generate_code.uo vsm_assemble.uo vsm_emit.uo compile.uo
+FILES=Library.uo Global.uo AST_L1.uo AST_IR1.uo AST_IR2.uo L1_optimisations.uo L1_to_IR1.uo IR1_to_IR2.uo AST_vrm_assembler.uo AST_vrm_bytecode.uo AST_vsm_assembler.uo AST_vsm_bytecode.uo Lexer.uo parser.uo Typing.uo vrm_generate_code.uo vrm_assemble.uo vrm_emit.uo vsm_generate_code.uo vsm_assemble.uo vsm_emit.uo compile.uo
 
 all: $(FILES)
 	$(MOSMLC) -o slang1 $(FILES) main.sml 
@@ -52,6 +52,7 @@ main.uo: Library.ui parser.uo vrm_emit.uo Lexer.ui Global.uo vsm_emit.uo \
     compile.uo 
 Library.uo: Library.ui 
 Lexer.uo: Lexer.ui 
+L1_optimisations.uo: Library.uo AST_L1.uo Global.uo
 L1_to_IR1.uo: Library.ui AST_IR1.uo AST_L1.uo Global.uo 
 IR1_to_IR2.uo: AST_IR1.uo AST_IR2.uo Global.uo 
 Global.uo: Library.ui 
